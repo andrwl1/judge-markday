@@ -4,14 +4,13 @@ import json, argparse
 from typing import Dict
 from judge import evaluate, Verdict
 
-
 def load_metrics(path: Path) -> Dict:
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
 
 def metrics_date(metrics: Dict) -> str:
     d = metrics.get("date")
-    return d if isinstance(d, str) and d else date.today().isoformat()
+    return d if isinstance(d, str) else date.today().isoformat()
 
 def format_line(day: str, verdict: Verdict) -> str:
     reasons = "; ".join(verdict.reasons) if verdict.reasons else "-"
@@ -19,7 +18,7 @@ def format_line(day: str, verdict: Verdict) -> str:
 
 def write_log(verdict: Verdict, log_path: Path, day: str) -> None:
     line = format_line(day, verdict)
-    with log_path.open("w", encoding="utf-8") as f:  # всегда перезаписываем
+    with log_path.open("w", encoding="utf-8") as f:
         f.write(line)
 
 def main() -> None:
@@ -32,7 +31,6 @@ def main() -> None:
     metrics = load_metrics(Path(args.metrics))
     verdict = evaluate(metrics)
 
-    # если есть comment и нет причин — используем его
     comment = str(metrics.get("comment", "")).strip()
     if comment and not verdict.reasons:
         verdict = Verdict(verdict.pass_fail, [comment])
@@ -42,4 +40,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
