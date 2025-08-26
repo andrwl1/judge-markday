@@ -3,13 +3,15 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "judge_markday"
-version = "0.1.0"
+name = "judge-markday"
+version = "0.1.4"
 description = "Utility for marking daily results with judge integration"
 authors = [
-  { name="Andrii Meleshkov" }
+  { name = "Andrii Meleshkov" }
 ]
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
 
+[tool.setuptools]
+packages = ["judge"]
